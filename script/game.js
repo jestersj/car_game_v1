@@ -1,6 +1,6 @@
 const cvs = document.getElementById("canvas");
 const ctx = cvs.getContext("2d");
-
+//LOHIHIHIH
 
 const car = new Image();
 const cop = new Image();
