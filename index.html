@@ -23,7 +23,7 @@
                     <path
                         d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
                 </svg></button>
-            <button class="menu_btn" id="restart_btn"><svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor"
+            <button class="menu_btn" id="restart_btn_pause"><svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor"
                     class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
                     <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
                     <path
@@ -32,13 +32,24 @@
         </div>
         <!-- Start Menu -->
         <div class="menu_btn_wrapper" id="menu_window_start">
-            <h2>Не сбей мента</h2>
+            <h1>Не сбей мента!</h1>
             <h3>Управление:</h3>
-            <p>WASD или стрелки</p>
+            <h4>WASD или стрелки</h4>
             <button class="menu_btn" id="play_btn_start"><svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor"
                 class="bi bi-play" viewBox="0 0 16 16">
                 <path
                     d="M10.804 8 5 4.633v6.734L10.804 8zm.792-.696a.802.802 0 0 1 0 1.392l-6.363 3.692C4.713 12.69 4 12.345 4 11.692V4.308c0-.653.713-.998 1.233-.696l6.363 3.692z" />
+            </svg></button>
+        </div>
+        <!-- End Menu -->
+        <div class="menu_btn_wrapper" id="menu_window_end">
+            <h1>Game over!</h1>
+            <div id="result"></div>
+            <button class="menu_btn" id="restart_btn_end"><svg xmlns="http://www.w3.org/2000/svg" width="64" height="64" fill="currentColor"
+                class="bi bi-arrow-clockwise" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z" />
+                <path
+                    d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z" />
             </svg></button>
         </div>
     </div>

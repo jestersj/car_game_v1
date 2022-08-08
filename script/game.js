@@ -88,31 +88,44 @@ function menuVisibilityNone() {
     menuPause.style.display = 'none'
 }
 //Menu buttons
-const playBtnPause = document.getElementById("play_btn_pause")
-playBtnPause.addEventListener("click", ()=> pauseModeSwitch()) 
+const playBtnPause = document.getElementById("play_btn_pause");
+playBtnPause.addEventListener("click", () => pauseModeSwitch());
 
-const restartBtn = document.getElementById("restart_btn")
-restartBtn.addEventListener("click", ()=> location.reload()) 
+const restartBtnPause = document.getElementById("restart_btn_pause");
+restartBtnPause.addEventListener("click", () => location.reload());
 
-const playBtnStart = document.getElementById("play_btn_start")
-playBtnStart.addEventListener("click", ()=> {
+const playBtnStart = document.getElementById("play_btn_start");
+playBtnStart.addEventListener("click", () => {
     pauseModeSwitch();
     isStart = false;
 })
+const restartBtnEnd = document.getElementById("restart_btn_end");
+restartBtnEnd.addEventListener("click", () => location.reload());
+
+const finalScore = document.getElementById("result");
 
 //Which menu to open
-let isStart=true;
-const startMenu = document.getElementById("menu_window_start")
-const pauseMenu = document.getElementById("menu_window_pause")
-function whichMenu () {
-    if (isStart) {
+let isStart = true;
+let isEnd = false;
+const startMenu = document.getElementById("menu_window_start");
+const pauseMenu = document.getElementById("menu_window_pause");
+const endMenu = document.getElementById("menu_window_end");
+function whichMenu() {
+    if (isStart && !isEnd) {
         startMenu.style.display = "flex"
         pauseMenu.style.display = "none"
+        endMenu.style.display = "none"
 
     }
-    if (!isStart) {
+    if (!isStart && !isEnd) {
         startMenu.style.display = "none"
         pauseMenu.style.display = "flex"
+        endMenu.style.display = "none"
+    }
+    if (!isStart && isEnd) {
+        startMenu.style.display = "none"
+        pauseMenu.style.display = "none"
+        endMenu.style.display = "flex"
     }
 
 }
@@ -143,7 +156,8 @@ function draw() {
             && xPosCar + 120 >= cops[i].x
             && yPosCar <= cops[i].y + 160
             && yPosCar + 170 >= cops[i].y) {
-            location.reload();
+            isPaused = true;
+            isEnd = true;
         }
 
         if (cops.length >= 5) {
@@ -161,7 +175,7 @@ function draw() {
         //Opening pause menu
         if (isPaused) {
             menuVisibilityFlex();
-            
+
         }
         if (!isPaused) {
             menuVisibilityNone();
@@ -170,9 +184,10 @@ function draw() {
         whichMenu();
 
         ctx.fillStyle = "#000";
-        ctx.font = "24px Verdana";
+        ctx.font = "24px Undertale Battle Font";
         ctx.fillText(`Счет: ${score}`, 10, cvs.height - 20);
         ctx.fillText(`Рекорд: ${localStorage.getItem('maxScore')}`, 10, cvs.height - 40);
+        finalScore.innerHTML = `<h2>Счет: ${score} <br> Рекорд: ${localStorage.getItem('maxScore')}</h2>`;
 
     }
 
