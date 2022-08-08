@@ -15,19 +15,19 @@ document.addEventListener("keydown", whichKey)
 function whichKey() {
     let keyName = event.key
     if (xPosCar + 120 <= cvs.width - 90 && (keyName == "d" || keyName == "в" || keyName == "ArrowRight") && !isPaused) {
-        moveRight()
+        moveRight();
     }
     if (xPosCar >= 0 && (keyName == "a" || keyName == "ф" || keyName == "ArrowLeft") && !isPaused) {
-        moveLeft()
+        moveLeft();
     }
     if (yPosCar >= 90 && (keyName == "w" || keyName == "ц" || keyName == "ArrowUp") && !isPaused) {
-        moveUp()
+        moveUp();
     }
     if (yPosCar + 170 <= cvs.height - 90 && (keyName == "s" || keyName == "ы" || keyName == "ArrowDown") && !isPaused) {
-        moveDown()
+        moveDown();
     }
-    if (keyName == "Escape") {
-        isPaused = !isPaused;
+    if (keyName == "Escape" || keyName == "Space") {
+        pauseModeSwitch();
     }
 
 }
@@ -56,8 +56,7 @@ let score = 0;
 //Reset score 
 const reset = document.getElementById("resetScore")
 reset.addEventListener("click", () => {
-    localStorage.setItem("maxScore", 0)
-    console.log("bam")
+    localStorage.setItem("maxScore", 0);
 })
 
 //Cop position
@@ -72,14 +71,64 @@ cops[0] = {
 
 
 //Menu
-let isPaused = false;
-
-const menu = document.getElementById("menu")
-menu.addEventListener("click", () => {
-    isPaused = !isPaused
-    console.log(isPaused)
+let isPaused = true;
+function pauseModeSwitch() {
+    isPaused = !isPaused;
+}
+const menuBtn = document.getElementById("menu_btn")
+menuBtn.addEventListener("click", () => {
+    pauseModeSwitch();
 })
 
+const menuPause = document.getElementById("menu_window")
+function menuVisibilityFlex() {
+    menuPause.style.display = 'flex'
+}
+function menuVisibilityNone() {
+    menuPause.style.display = 'none'
+}
+//Menu buttons
+const playBtnPause = document.getElementById("play_btn_pause");
+playBtnPause.addEventListener("click", () => pauseModeSwitch());
+
+const restartBtnPause = document.getElementById("restart_btn_pause");
+restartBtnPause.addEventListener("click", () => location.reload());
+
+const playBtnStart = document.getElementById("play_btn_start");
+playBtnStart.addEventListener("click", () => {
+    pauseModeSwitch();
+    isStart = false;
+})
+const restartBtnEnd = document.getElementById("restart_btn_end");
+restartBtnEnd.addEventListener("click", () => location.reload());
+
+const finalScore = document.getElementById("result");
+
+//Which menu to open
+let isStart = true;
+let isEnd = false;
+const startMenu = document.getElementById("menu_window_start");
+const pauseMenu = document.getElementById("menu_window_pause");
+const endMenu = document.getElementById("menu_window_end");
+function whichMenu() {
+    if (isStart && !isEnd) {
+        startMenu.style.display = "flex"
+        pauseMenu.style.display = "none"
+        endMenu.style.display = "none"
+
+    }
+    if (!isStart && !isEnd) {
+        startMenu.style.display = "none"
+        pauseMenu.style.display = "flex"
+        endMenu.style.display = "none"
+    }
+    if (!isStart && isEnd) {
+        startMenu.style.display = "none"
+        pauseMenu.style.display = "none"
+        endMenu.style.display = "flex"
+    }
+
+}
 
 
 
@@ -107,7 +156,8 @@ function draw() {
             && xPosCar + 120 >= cops[i].x
             && yPosCar <= cops[i].y + 160
             && yPosCar + 170 >= cops[i].y) {
-            location.reload();
+            isPaused = true;
+            isEnd = true;
         }
 
         if (cops.length >= 5) {
@@ -122,12 +172,22 @@ function draw() {
         if (score >= localStorage.getItem('maxScore')) {
             localStorage.setItem('maxScore', score);
         }
+        //Opening pause menu
+        if (isPaused) {
+            menuVisibilityFlex();
 
+        }
+        if (!isPaused) {
+            menuVisibilityNone();
+        }
+        //Checking which type of window should be opened
+        whichMenu();
 
         ctx.fillStyle = "#000";
-        ctx.font = "24px Verdana";
+        ctx.font = "24px Undertale Battle Font";
         ctx.fillText(`Счет: ${score}`, 10, cvs.height - 20);
         ctx.fillText(`Рекорд: ${localStorage.getItem('maxScore')}`, 10, cvs.height - 40);
+        finalScore.innerHTML = `<h2>Счет: ${score} <br> Рекорд: ${localStorage.getItem('maxScore')}</h2>`;
 
     }
 

@@ -1,9 +1,57 @@
+@font-face {
+    font-family: "Undertale Battle Font";
+    src: url(./font/Undertale-Battle-Font.ttf);
+}
+body {
+    font-family: "Undertale Battle Font";
+    text-transform: uppercase;
+    color: white;
+}
 .container {
     display: flex;
     justify-content: center;
+    margin-top: 50px;
 }
 
 canvas {
     display: block;
     margin: 0 auto;
+}
+#menu_window {
+    display: none;
+    width: 20vw;
+    height: 500px;
+    position: fixed;
+    top: 100px;
+    left: 40vw;
+    background-color: #ab1616;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+#menu_window_pause {
+    display: none;
+    align-items: center;
+    flex-direction: column;
+}
+#menu_window_start {
+    display: none;
+    align-items: center;
+    flex-direction: column;
+}
+#menu_window_end {
+    display: none;
+    align-items: center;
+    flex-direction: column;
+}
+.menu_btn {
+    background-color: #f78e02;
+    width: 70%;
+    padding: 30px;
+    margin: 50px;
+    border: none;
+    transition: 0.5s;
+}
+.menu_btn:hover {
+    background-color: #f5b156;
 }
