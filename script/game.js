@@ -71,7 +71,7 @@ cops[0] = {
 
 
 //Menu
-let isPaused = false;
+let isPaused = true;
 function pauseModeSwitch() {
     isPaused = !isPaused;
 }
@@ -87,8 +87,35 @@ function menuVisibilityFlex() {
 function menuVisibilityNone() {
     menuPause.style.display = 'none'
 }
+//Menu buttons
+const playBtnPause = document.getElementById("play_btn_pause")
+playBtnPause.addEventListener("click", ()=> pauseModeSwitch()) 
 
+const restartBtn = document.getElementById("restart_btn")
+restartBtn.addEventListener("click", ()=> location.reload()) 
 
+const playBtnStart = document.getElementById("play_btn_start")
+playBtnStart.addEventListener("click", ()=> {
+    pauseModeSwitch();
+    isStart = false;
+})
+
+//Which menu to open
+let isStart=true;
+const startMenu = document.getElementById("menu_window_start")
+const pauseMenu = document.getElementById("menu_window_pause")
+function whichMenu () {
+    if (isStart) {
+        startMenu.style.display = "flex"
+        pauseMenu.style.display = "none"
+
+    }
+    if (!isStart) {
+        startMenu.style.display = "none"
+        pauseMenu.style.display = "flex"
+    }
+
+}
 
 
 
@@ -134,11 +161,13 @@ function draw() {
         //Opening pause menu
         if (isPaused) {
             menuVisibilityFlex();
+            
         }
         if (!isPaused) {
             menuVisibilityNone();
         }
-
+        //Checking which type of window should be opened
+        whichMenu();
 
         ctx.fillStyle = "#000";
         ctx.font = "24px Verdana";

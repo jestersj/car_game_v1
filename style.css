@@ -17,9 +17,15 @@ canvas {
     background-color: red;
     justify-content: center;
     align-items: center;
+    box-sizing: border-box;
 }
-.menu_btn_wrapper {
-    display: flex;
+#menu_window_pause {
+    display: none;
+    align-items: center;
+    flex-direction: column;
+}
+#menu_window_start {
+    display: none;
     align-items: center;
     flex-direction: column;
 }
