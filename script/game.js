@@ -26,7 +26,7 @@ function whichKey() {
     if (yPosCar + 170 <= cvs.height - 90 && (keyName == "s" || keyName == "ы" || keyName == "ArrowDown") && !isPaused) {
         moveDown();
     }
-    if (keyName == "Escape" || keyName == "Space") {
+    if ((keyName == "Escape" || keyName == "Space")) {
         pauseModeSwitch();
     }
 
@@ -92,7 +92,7 @@ const playBtnPause = document.getElementById("play_btn_pause");
 playBtnPause.addEventListener("click", () => pauseModeSwitch());
 
 const restartBtnPause = document.getElementById("restart_btn_pause");
-restartBtnPause.addEventListener("click", () => location.reload());
+restartBtnPause.addEventListener("click", () => restartGame());
 
 const playBtnStart = document.getElementById("play_btn_start");
 playBtnStart.addEventListener("click", () => {
@@ -100,7 +100,7 @@ playBtnStart.addEventListener("click", () => {
     isStart = false;
 })
 const restartBtnEnd = document.getElementById("restart_btn_end");
-restartBtnEnd.addEventListener("click", () => location.reload());
+restartBtnEnd.addEventListener("click", () => restartGame());
 
 const finalScore = document.getElementById("result");
 
@@ -126,11 +126,29 @@ function whichMenu() {
         startMenu.style.display = "none"
         pauseMenu.style.display = "none"
         endMenu.style.display = "flex"
+        isEnd =!isEnd
     }
 
 }
 
+//Function to restart
+function restartGame() {
+    cops.length = 0;
+    cops[0] = {
+        x: Math.floor((Math.random()) * cvs.width) - 50,
+        y: 0,
+        vel: 2,
+        flag_spawn: true,
+        flag_score: true
+    }
+    xPosCar = 160;
+    yPosCar = 520;
+    score = 0;
 
+    pauseModeSwitch();
+}
+    
+    
 
 
 function draw() {
@@ -183,7 +201,7 @@ function draw() {
         //Checking which type of window should be opened
         whichMenu();
 
-        ctx.fillStyle = "#000";
+        ctx.fillStyle = "#fff";
         ctx.font = "24px Undertale Battle Font";
         ctx.fillText(`Счет: ${score}`, 10, cvs.height - 20);
         ctx.fillText(`Рекорд: ${localStorage.getItem('maxScore')}`, 10, cvs.height - 40);
