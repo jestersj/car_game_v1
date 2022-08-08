@@ -71,14 +71,23 @@ cops[0] = {
 
 
 //Menu
-let isPaused = true;
+let isPaused = false;
 function pauseModeSwitch() {
     isPaused = !isPaused;
 }
-const menu = document.getElementById("menu_btn")
-menu.addEventListener("click", () => {
+const menuBtn = document.getElementById("menu_btn")
+menuBtn.addEventListener("click", () => {
     pauseModeSwitch();
 })
+
+const menuPause = document.getElementById("menu_window")
+function menuVisibilityFlex() {
+    menuPause.style.display = 'flex'
+}
+function menuVisibilityNone() {
+    menuPause.style.display = 'none'
+}
+
 
 
 
@@ -121,6 +130,13 @@ function draw() {
         //Recording score
         if (score >= localStorage.getItem('maxScore')) {
             localStorage.setItem('maxScore', score);
+        }
+        //Opening pause menu
+        if (isPaused) {
+            menuVisibilityFlex();
+        }
+        if (!isPaused) {
+            menuVisibilityNone();
         }
 
 
