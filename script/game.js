@@ -148,8 +148,8 @@ function whichMenu() {
 
 //Function to restart
 function restartGame() {
-    cops.length = 0;
-    cops[0] = {
+    cops.itemProperties.length = 0;
+    cops.itemProperties[0] = {
         x: Math.floor((Math.random()) * cvs.width) - 50,
         y: -160,
         vel: 2,
@@ -179,7 +179,7 @@ function draw() {
             cops.itemProperties.push({
                 x: Math.floor((Math.random()) * cvs.width) - 50,
                 y: -160,
-                vel: cops[i].vel + 0.1,
+                vel: cops.itemProperties[i].vel + 0.1,
                 flag_spawn: true,
                 flag_score: true
             })
