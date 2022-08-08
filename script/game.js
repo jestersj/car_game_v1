@@ -15,19 +15,19 @@ document.addEventListener("keydown", whichKey)
 function whichKey() {
     let keyName = event.key
     if (xPosCar + 120 <= cvs.width - 90 && (keyName == "d" || keyName == "в" || keyName == "ArrowRight") && !isPaused) {
-        moveRight()
+        moveRight();
     }
     if (xPosCar >= 0 && (keyName == "a" || keyName == "ф" || keyName == "ArrowLeft") && !isPaused) {
-        moveLeft()
+        moveLeft();
     }
     if (yPosCar >= 90 && (keyName == "w" || keyName == "ц" || keyName == "ArrowUp") && !isPaused) {
-        moveUp()
+        moveUp();
     }
     if (yPosCar + 170 <= cvs.height - 90 && (keyName == "s" || keyName == "ы" || keyName == "ArrowDown") && !isPaused) {
-        moveDown()
+        moveDown();
     }
-    if (keyName == "Escape") {
-        isPaused = !isPaused;
+    if (keyName == "Escape" || keyName == "Space") {
+        pauseModeSwitch();
     }
 
 }
@@ -56,8 +56,7 @@ let score = 0;
 //Reset score 
 const reset = document.getElementById("resetScore")
 reset.addEventListener("click", () => {
-    localStorage.setItem("maxScore", 0)
-    console.log("bam")
+    localStorage.setItem("maxScore", 0);
 })
 
 //Cop position
@@ -72,12 +71,13 @@ cops[0] = {
 
 
 //Menu
-let isPaused = false;
-
-const menu = document.getElementById("menu")
+let isPaused = true;
+function pauseModeSwitch() {
+    isPaused = !isPaused;
+}
+const menu = document.getElementById("menu_btn")
 menu.addEventListener("click", () => {
-    isPaused = !isPaused
-    console.log(isPaused)
+    pauseModeSwitch();
 })
 
 

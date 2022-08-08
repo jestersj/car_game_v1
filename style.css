@@ -7,3 +7,30 @@ canvas {
     display: block;
     margin: 0 auto;
 }
+#menu_window {
+    display: flex;
+    width: 20vw;
+    height: 500px;
+    position: fixed;
+    top: 100px;
+    left: 40vw;
+    background-color: red;
+    justify-content: center;
+    align-items: center;
+}
+.menu_btn_wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+.menu_btn {
+    background-color: yellow;
+    width: 70%;
+    padding: 30px;
+    margin: 50px;
+    border: none;
+    transition: 0.5s;
+}
+.menu_btn:hover {
+    background-color: blue;
+}
