@@ -63,7 +63,7 @@ reset.addEventListener("click", () => {
 let cops = []
 cops[0] = {
     x: Math.floor((Math.random()) * cvs.width) - 50,
-    y: 0,
+    y: -160,
     vel: 2,
     flag_spawn: true,
     flag_score: true
@@ -136,7 +136,7 @@ function restartGame() {
     cops.length = 0;
     cops[0] = {
         x: Math.floor((Math.random()) * cvs.width) - 50,
-        y: 0,
+        y: -160,
         vel: 2,
         flag_spawn: true,
         flag_score: true
@@ -163,7 +163,7 @@ function draw() {
             cops[i].flag_spawn = false;
             cops.push({
                 x: Math.floor((Math.random()) * cvs.width) - 50,
-                y: 0,
+                y: -160,
                 vel: cops[i].vel + 0.1,
                 flag_spawn: true,
                 flag_score: true
@@ -203,9 +203,9 @@ function draw() {
 
         ctx.fillStyle = "#fff";
         ctx.font = "24px Undertale Battle Font";
-        ctx.fillText(`Счет: ${score}`, 10, cvs.height - 20);
-        ctx.fillText(`Рекорд: ${localStorage.getItem('maxScore')}`, 10, cvs.height - 40);
-        finalScore.innerHTML = `<h2>Счет: ${score} <br> Рекорд: ${localStorage.getItem('maxScore')}</h2>`;
+        ctx.fillText(`Score: ${score}`, 10, cvs.height - 20);
+        ctx.fillText(`Record: ${localStorage.getItem('maxScore')}`, 10, cvs.height - 40);
+        finalScore.innerHTML = `<h2>Score: ${score} <br> Record: ${localStorage.getItem('maxScore')}</h2>`;
 
     }
 
