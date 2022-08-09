@@ -3,11 +3,13 @@ const ctx = cvs.getContext("2d");
 
 const car = new Image();
 const cop = new Image();
+const coin = new Image();
 const road = new Image();
 
 
 car.src = "./img/car.png";
 cop.src = "./img/cop.png";
+coin.src = "./img/coin.png";
 road.src = "./img/road.png";
 
 //Pressing a key
@@ -60,16 +62,43 @@ reset.addEventListener("click", () => {
 })
 
 //Cop position
-let cops = []
-cops[0] = {
-    x: Math.floor((Math.random()) * cvs.width) - 50,
-    y: -160,
-    vel: 2,
-    flag_spawn: true,
-    flag_score: true
+// let cops.itemProperties = []
+// cops.itemProperties[0] = {
+//     x: Math.floor((Math.random()) * cvs.width) - 50,
+//     y: -160,
+//     vel: 2,
+//     flag_spawn: true,
+//     flag_score: true
+// }
+class DroppingItems {
+    constructor(itemName) {
+        this.name = itemName;
+        this.itemProperties = [];
+        this.itemProperties[0] = {
+            x: Math.floor((Math.random()) * cvs.width) - 50,
+            y: -160,
+            vel: 2,
+            flag_spawn: true,
+            flag_score: true
+        }
+    }
 }
+let cops = new DroppingItems('cops');
 
-
+class CollectableItems {
+    constructor(itemName) {
+        this.name = itemName;
+        this.itemProperties = [];
+        this.itemProperties[0] = {
+            x: Math.floor((Math.random()) * cvs.width) - 10,
+            y: -25,
+            vel: 2,
+            flag_spawn: true,
+            flag_score: true
+        }
+    }
+}
+let coins = new CollectableItems('coins');
 //Menu
 let isPaused = true;
 function pauseModeSwitch() {
@@ -133,8 +162,8 @@ function whichMenu() {
 
 //Function to restart
 function restartGame() {
-    cops.length = 0;
-    cops[0] = {
+    cops.itemProperties.length = 0;
+    cops.itemProperties[0] = {
         x: Math.floor((Math.random()) * cvs.width) - 50,
         y: -160,
         vel: 2,
@@ -153,38 +182,41 @@ function restartGame() {
 
 function draw() {
     ctx.drawImage(road, 0, 0);
-    for (let i = 0; i < cops.length; i++) {
-        ctx.drawImage(cop, cops[i].x, cops[i].y, 100, 160);
+    for (let i = 0; i < cops.itemProperties.length; i++) {
+        ctx.drawImage(cop, cops.itemProperties[i].x, cops.itemProperties[i].y, 100, 160);
+        ctx.drawImage(coin, coins.itemProperties[i].x, coins.itemProperties[i].y, 20, 25);
 
         if (!isPaused) {
-            cops[i].y += cops[i].vel;
+            cops.itemProperties[i].y += cops.itemProperties[i].vel;
+            coins.itemProperties[i].y += coins.itemProperties[i].vel;
         }
-        if (cops[i].y >= 350 && cops[i].flag_spawn && !isPaused) {
-            cops[i].flag_spawn = false;
-            cops.push({
+        if (cops.itemProperties[i].y >= 350 && cops.itemProperties[i].flag_spawn && !isPaused) {
+            cops.itemProperties[i].flag_spawn = false;
+            cops.itemProperties.push({
                 x: Math.floor((Math.random()) * cvs.width) - 50,
                 y: -160,
-                vel: cops[i].vel + 0.1,
+                vel: cops.itemProperties[i].vel + 0.1,
                 flag_spawn: true,
                 flag_score: true
             })
+            coinSpawner(coins);
         }
         //Car crash check
-        if (xPosCar <= cops[i].x + 50
-            && xPosCar + 120 >= cops[i].x
-            && yPosCar <= cops[i].y + 160
-            && yPosCar + 170 >= cops[i].y) {
+        if (xPosCar <= cops.itemProperties[i].x + 50
+            && xPosCar + 120 >= cops.itemProperties[i].x
+            && yPosCar <= cops.itemProperties[i].y + 160
+            && yPosCar + 170 >= cops.itemProperties[i].y) {
             isPaused = true;
             isEnd = true;
         }
 
-        if (cops.length >= 5) {
-            cops.shift();
+        if (cops.itemProperties.length >= 5) {
+            cops.itemProperties.shift();
         }
         //Adding score
-        if (cops[i].y >= cvs.height - 20 && cops[i].flag_score) {
+        if (cops.itemProperties[i].y >= cvs.height - 20 && cops.itemProperties[i].flag_score) {
             score++;
-            cops[i].flag_score = false;
+            cops.itemProperties[i].flag_score = false;
         }
         //Recording score
         if (score >= localStorage.getItem('maxScore')) {
@@ -220,3 +252,17 @@ function draw() {
 
 
 road.onload = draw;
+
+//chance to spawn a coin
+function coinSpawner(arrName) {
+    let r = Math.floor(Math.random()*100);
+    if (r >= 10) {
+        arrName.itemProperties.push({
+                x: Math.floor((Math.random()) * cvs.width) - 10,
+                y: -25,
+                vel: 2,
+                flag_spawn: true,
+                flag_score: true
+        })
+    }
+}
