@@ -155,7 +155,7 @@ function whichMenu() {
         startMenu.style.display = "none"
         pauseMenu.style.display = "none"
         endMenu.style.display = "flex"
-        isEnd =!isEnd
+        isEnd = !isEnd
     }
 
 }
@@ -173,22 +173,29 @@ function restartGame() {
     xPosCar = 160;
     yPosCar = 520;
     score = 0;
+    
+    coins.itemProperties.length = 0;
+    coins.itemProperties[0] = { x: Math.floor((Math.random()) * cvs.width) - 10,
+    y: 0,
+    vel: 2,
+    flag_spawn: true,
+    flag_score: true
+    }
+    n=0;
 
     pauseModeSwitch();
 }
-    
-    
+
+
 
 
 function draw() {
     ctx.drawImage(road, 0, 0);
     for (let i = 0; i < cops.itemProperties.length; i++) {
         ctx.drawImage(cop, cops.itemProperties[i].x, cops.itemProperties[i].y, 100, 160);
-        ctx.drawImage(coin, coins.itemProperties[i].x, coins.itemProperties[i].y, 20, 25);
-
+        coinSpawner(coins, i);
         if (!isPaused) {
             cops.itemProperties[i].y += cops.itemProperties[i].vel;
-            coins.itemProperties[i].y += coins.itemProperties[i].vel;
         }
         if (cops.itemProperties[i].y >= 350 && cops.itemProperties[i].flag_spawn && !isPaused) {
             cops.itemProperties[i].flag_spawn = false;
@@ -199,7 +206,6 @@ function draw() {
                 flag_spawn: true,
                 flag_score: true
             })
-            coinSpawner(coins);
         }
         //Car crash check
         if (xPosCar <= cops.itemProperties[i].x + 50
@@ -249,20 +255,42 @@ function draw() {
 
 }
 
-
+let n = 0;
+let wallet = localStorage.setItem('money', 0);
 
 road.onload = draw;
 
 //chance to spawn a coin
-function coinSpawner(arrName) {
-    let r = Math.floor(Math.random()*100);
-    if (r >= 10) {
-        arrName.itemProperties.push({
-                x: Math.floor((Math.random()) * cvs.width) - 10,
-                y: -25,
-                vel: 2,
-                flag_spawn: true,
-                flag_score: true
-        })
+function coinSpawner(arrName, arrIndex) {
+    for (let j = 0; j < arrIndex; j++) {
+        if (!isPaused) {
+            let rand = (Math.random() * 100);
+
+            if (rand >= 99.95) {
+                arrName.itemProperties.push({
+                    x: Math.floor((Math.random()) * cvs.width) - 10,
+                    y: 0,
+                    vel: 2,
+                    flag_spawn: true,
+                    flag_score: true
+                })
+                n++
+                console.log(rand)
+                console.log(n)
+            }
+            try {
+            if (coins.itemProperties[n].flag_spawn) {
+                ctx.drawImage(coin, coins.itemProperties[n].x, coins.itemProperties[n].y, 20, 25);
+                coins.itemProperties[n].y += coins.itemProperties[n].vel;
+            }} catch {console.log(n)}
+            try {
+            if (coins.itemProperties[n].y >= cvs.height) {
+                coins.itemProperties[n].flag_spawn = false;
+                console.log(coins.itemProperties[n].flag_spawn = false)
+                coins.itemProperties.pop();
+            }} catch {console.log(n)}
+        
+
+    }
     }
 }
