@@ -35,3 +35,35 @@ export function draw_all(array) {
     }
 }
 
+
+function check_in(base1, x, y) {
+    return (base1.x <= x)  && (x <= base1.x + base1.width) && (base1.y <= y) && (y <= base1.y + base1.height);
+}
+
+
+
+function check_vertices_in(base1, base2) {
+    let x,  y;
+
+    x = base2.x;
+    y = base2.y;
+    if (check_in(base1, x, y)) return true;
+
+    x = base2.x;
+    y = base2.y + base2.height;
+    if (check_in(base1, x, y)) return true;
+
+    x = base2.x + base2.width;
+    y = base2.y;
+    if (check_in(base1, x, y)) return true;
+
+    x = base2.x + base2.width;
+    y = base2.y + base2.height;
+    if (check_in(base1, x, y)) return true;
+
+    return false;
+}
+
+export function collide(base1, base2) {
+    return check_vertices_in(base1, base2) || check_vertices_in(base2, base1);
+}
